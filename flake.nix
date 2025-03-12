@@ -6,19 +6,19 @@ outputs = {self, nixpkgs, ...}: {
   packages.aarch64-darwin.secp256k1-jdk = 
     let
       pkgs = nixpkgs.legacyPackages.aarch64-darwin.pkgs;
-      stdenv = pkgs.stdenv;
-      fetchFromGitHub = pkgs.fetchFromGitHub;
+
       gradle = pkgs.gradle.override {
         java = pkgs.jdk23_headless; # Run Gradle with this JDK
       };
       jre = pkgs.jdk23_headless;  # JRE to run the example with
       makeWrapper = pkgs.makeWrapper;
       secp256k1 = pkgs.secp256k1;
-      self = stdenv.mkDerivation (_finalAttrs: {
+
+      self = pkgs.stdenv.mkDerivation (_finalAttrs: {
         pname = "secp256k1-jdk";
         version = "0.2-unstable";
 
-        src = fetchFromGitHub {
+        src = pkgs.fetchFromGitHub {
           owner = "bitcoinj";
           repo = "secp256k1-jdk";
           rev = "3aa410ee785acc6483468a8b294161f915fbfe65";

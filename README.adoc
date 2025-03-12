@@ -1,0 +1,20 @@
+= Proof-of-concept Package flake for secp256k1-jdk
+
+== To build/update deps.json
+
+```
+$(nix build .#secp256k1-jdk.mitmCache.updateScript --print-out-paths)
+```
+
+== To build secp256k1-jdk
+
+```
+nix build .#secp256k1-jdk
+```
+
+== To Install secp256k1-jdk
+
+```
+nix profile install .#secp256k1-jdk
+```
+

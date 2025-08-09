@@ -2,16 +2,16 @@
   "nodes": {
     "nixpkgs": {
       "locked": {
-        "lastModified": 1741513245,
-        "narHash": "sha256-7rTAMNTY1xoBwz0h7ZMtEcd8LELk9R5TzBPoHuhNSCk=",
-        "owner": "NixOS",
+        "lastModified": 1754243666,
+        "narHash": "sha256-fzDOhSmHlxZacSXW4ECfKIPSgWDkFVBcH8yfeh4u5yI=",
+        "owner": "nixpkgs-jdk-ea",
         "repo": "nixpkgs",
-        "rev": "e3e32b642a31e6714ec1b712de8c91a3352ce7e1",
+        "rev": "9e52b39c8487b1a66b5f9155a9b005f89e05c24a",
         "type": "github"
       },
       "original": {
-        "owner": "NixOS",
-        "ref": "nixos-unstable",
+        "owner": "nixpkgs-jdk-ea",
+        "ref": "msgilligan/graalvm-oracle-25ea",
         "repo": "nixpkgs",
         "type": "github"
       }

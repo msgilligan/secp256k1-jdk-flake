@@ -1,6 +1,6 @@
 {
 inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixpkgs-jdk-ea/nixpkgs/msgilligan/graalvm-oracle-25ea";
 };
 outputs = {self, nixpkgs, ...}: {
   packages.aarch64-darwin.secp256k1-jdk = 

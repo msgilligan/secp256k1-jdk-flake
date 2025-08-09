@@ -1,20 +1,38 @@
 = Proof-of-concept Package flake for secp256k1-jdk
 
-== To build/update deps.json
+This is a work-in-progress, proof-of-concept build of `secp256k1-jdk` as a Nix (flake-based)
+package.  There is both a JVM (JIT) version and a natively compiled GraalVM version.
 
-```
-$(nix build .#secp256k1-jdk.mitmCache.updateScript --print-out-paths)
-```
 
 == To build secp256k1-jdk
 
 ```
 nix build .#secp256k1-jdk
 ```
+and/or
+
+```
+nix build .#secp256k1-jdk-native
+```
 
 == To Install secp256k1-jdk
 
 ```
 nix profile install .#secp256k1-jdk
+```
+
+and/or
+
+```
+nix profile install .#secp256k1-jdk-native
+```
+
+== To build/update deps.json and deps-native.json
+
+If you want to update the dependencies that are cached in `deps.json` and `deps-native.json`
+
+```
+$(nix build .#secp256k1-jdk.mitmCache.updateScript --print-out-paths)
+$(nix build .#secp256k1-jdk-native.mitmCache.updateScript --print-out-paths)
 ```
 

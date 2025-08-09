@@ -13,10 +13,11 @@ outputs = {self, nixpkgs, ...}: {
       jre = pkgs.jdk23_headless;  # JRE to run the example with
       makeWrapper = pkgs.makeWrapper;
       secp256k1 = pkgs.secp256k1;
+      version = "0.2-SNAPSHOT";
 
       self = pkgs.stdenv.mkDerivation (_finalAttrs: {
+        inherit version;
         pname = "secp256k1-jdk";
-        version = "0.2-unstable";
 
         src = pkgs.fetchFromGitHub {
           owner = "bitcoinj";
@@ -42,8 +43,7 @@ outputs = {self, nixpkgs, ...}: {
         # will run the gradleCheckTask (defaults to "test")
         doCheck = false;
 
-        # TODO:  0.2-SNAPSHOT is currently hardcoded in the path to the JARs
-        # TODO: The list of JARs is also hard-coded
+        # TODO: The list of JARs in --module-path is hard-coded
         installPhase = ''
           mkdir -p $out/{bin,share/secp256k1-jdk/libs,share/secp-examples-java/libs}
           cp secp-api/build/libs/*.jar $out/share/secp256k1-jdk/libs
@@ -54,7 +54,7 @@ outputs = {self, nixpkgs, ...}: {
           makeWrapper ${jre}/bin/java $out/bin/schnorr-example \
             --add-flags "--enable-native-access=org.bitcoinj.secp.ffm" \
             --add-flags "-Djava.library.path=${secp256k1}/lib" \
-            --add-flags "--module-path $out/share/secp-examples-java/libs/jspecify-1.0.0.jar:$out/share/secp-examples-java/libs/secp-api-0.2-SNAPSHOT.jar:$out/share/secp-examples-java/libs/secp-examples-java-0.2-SNAPSHOT.jar:$out/share/secp-examples-java/libs/secp-ffm-0.2-SNAPSHOT.jar" \
+            --add-flags "--module-path $out/share/secp-examples-java/libs/jspecify-1.0.0.jar:$out/share/secp-examples-java/libs/secp-api-${version}.jar:$out/share/secp-examples-java/libs/secp-examples-java-${version}.jar:$out/share/secp-examples-java/libs/secp-ffm-${version}.jar" \
             --add-flags "--module org.bitcoinj.secp.examples/org.bitcoinj.secp.examples.Schnorr"
         '';
       });

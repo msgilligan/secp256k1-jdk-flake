@@ -1,6 +1,6 @@
 {
 inputs = {
-    nixpkgs.url = "github:nixpkgs-jdk-ea/nixpkgs/msgilligan/graalvm-oracle-25ea";
+    nixpkgs.url = "github:nixpkgs-jdk-ea/nixpkgs/jdk-ea-25";
 };
 outputs = {self, nixpkgs, ...}: {
   packages.aarch64-darwin.secp256k1-jdk = 

@@ -52,10 +52,13 @@ outputs = {self, nixpkgs, ...}:
               data = ./deps.json;
             };
 
-            # defaults to "assemble"
+            preBuild = ''
+              export JAVA_TOOL_OPTIONS=-Djava.library.path=${secp256k1}/lib
+            '';
+
             gradleBuildTask = "secp-examples-java:installDist";
 
-            gradleFlags = [ "-PjavaPath=${secp256k1}/lib  --info --stacktrace" ];
+            gradleFlags = [ "--info --stacktrace" ];
 
             # will run the gradleCheckTask (defaults to "test")
             doCheck = false;
@@ -109,12 +112,14 @@ outputs = {self, nixpkgs, ...}:
               data = ./deps-native.json;
             };
 
-            buildPhase = ''
+            preBuild = ''
               export GRAALVM_HOME=${graalvm}
-              echo GRAALVM_HOME is $GRAALVM_HOME
               export JAVA_TOOL_OPTIONS=-Djava.library.path=${secp256k1}/lib
-              ${gradle}/bin/gradle -PjavaPath=${secp256k1}/lib  --info --stacktrace build secp-examples-java:nativeCompileSchnorr
             '';
+
+            gradleBuildTask = "build secp-examples-java:nativeCompileSchnorr";
+
+            gradleFlags = [ "--info --stacktrace" ];
 
             # will run the gradleCheckTask (defaults to "test")
             doCheck = false;

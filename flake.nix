@@ -8,9 +8,9 @@ outputs = {self, nixpkgs, ...}: {
       pkgs = nixpkgs.legacyPackages.aarch64-darwin.pkgs;
 
       gradle = pkgs.gradle.override {
-        java = pkgs.jdk23_headless; # Run Gradle with this JDK
+        java = pkgs.jdk24_headless; # Run Gradle with this JDK
       };
-      jre = pkgs.jdk23_headless;  # JRE to run the example with
+      jre = pkgs.jdk24_headless;  # JRE to run the example with
       makeWrapper = pkgs.makeWrapper;
       secp256k1 = pkgs.secp256k1;
       version = "0.2-SNAPSHOT";
@@ -23,8 +23,8 @@ outputs = {self, nixpkgs, ...}: {
         src = pkgs.fetchFromGitHub {
           owner = "bitcoinj";
           repo = "secp256k1-jdk";
-          rev = "3aa410ee785acc6483468a8b294161f915fbfe65";
-          sha256 = "sha256-kxJ4FaZiCpznioK3/OYf34jQv1/FNKJntKbyHuBCI4M=";
+          rev = "8f9746d7ab875b420a60b6e36234e20ea155927d"; # msgilligan/graaltest 25-08-08
+          sha256 = "sha256-7trYb4hOAZSRnZxUrHGuiTNR9hbkXWsVYe7ggRCZa1s=";
         };
 
         nativeBuildInputs = [gradle makeWrapper secp256k1];
@@ -55,7 +55,7 @@ outputs = {self, nixpkgs, ...}: {
           makeWrapper ${jre}/bin/java $out/bin/schnorr-example \
             --add-flags "--enable-native-access=org.bitcoinj.secp.ffm" \
             --add-flags "-Djava.library.path=${secp256k1}/lib" \
-            --add-flags "--module-path $out/share/secp-examples-java/libs/jspecify-1.0.0.jar:$out/share/secp-examples-java/libs/secp-api-${version}.jar:$out/share/secp-examples-java/libs/secp-examples-java-${version}.jar:$out/share/secp-examples-java/libs/secp-ffm-${version}.jar" \
+            --add-flags "--module-path $out/share/secp-examples-java/libs/jspecify-1.0.0.jar:$out/share/secp-examples-java/libs/nativeimage-24.0.0.jar:$out/share/secp-examples-java/libs/word-24.0.0.jar:$out/share/secp-examples-java/libs/secp-api-${version}.jar:$out/share/secp-examples-java/libs/secp-examples-java-${version}.jar:$out/share/secp-examples-java/libs/secp-ffm-${version}.jar" \
             --add-flags "--module org.bitcoinj.secp.examples/org.bitcoinj.secp.examples.Schnorr"
         '';
       });

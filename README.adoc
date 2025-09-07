@@ -6,33 +6,44 @@ package.  There is both a JVM (JIT) version and a natively compiled GraalVM vers
 
 == To build secp256k1-jdk
 
-```
+----
 nix build .#secp256k1-jdk
-```
+----
+
 and/or
 
-```
+----
 nix build .#secp256k1-jdk-native
-```
+----
+
+or build both:
+
+----
+nix build .#secp256k1-jdk .#secp256k1-jdk-native
+----
+
 
 == To Install secp256k1-jdk
 
-```
+----
 nix profile install .#secp256k1-jdk
-```
+----
 
 and/or
 
-```
+----
 nix profile install .#secp256k1-jdk-native
-```
+----
 
 == To build/update deps.json and deps-native.json
 
 If you want to update the dependencies that are cached in `deps.json` and `deps-native.json`
 
-```
+----
 $(nix build .#secp256k1-jdk.mitmCache.updateScript --print-out-paths)
 $(nix build .#secp256k1-jdk-native.mitmCache.updateScript --print-out-paths)
-```
+----
 
+== TODO
+
+* Use `src = self` as suggested by https://chatgpt.com/share/68bce3cf-5b54-800e-bcee-d114c32d8dc3[ChatGPT].

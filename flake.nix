@@ -5,12 +5,17 @@ inputs = {
 outputs = {self, nixpkgs, ...}: {
   packages.aarch64-darwin.secp256k1-jdk = 
     let
-      pkgs = nixpkgs.legacyPackages.aarch64-darwin.pkgs;
-
-      gradle = pkgs.gradle.override {
-        java = pkgs.jdk24_headless; # Run Gradle with this JDK
+      allowedUnfree = [ "graalvm-oracle" ]; # list of allowed unfree packages
+      pkgs = import nixpkgs {
+          system = "aarch64-darwin";
+          config.allowUnfreePredicate = pkg:
+            builtins.elem (pkgs.lib.getName pkg) allowedUnfree;
       };
-      jre = pkgs.jdk24_headless;  # JRE to run the example with
+
+      gradle = pkgs.gradle_9.override {
+        java = pkgs.graalvmPackages.graalvm-oracle_25-ea; # Run Gradle with this JDK
+      };
+      jre = pkgs.graalvmPackages.graalvm-oracle_25-ea;  # JRE to run the example with
       makeWrapper = pkgs.makeWrapper;
       secp256k1 = pkgs.secp256k1;
       version = "0.2-SNAPSHOT";
@@ -23,8 +28,8 @@ outputs = {self, nixpkgs, ...}: {
         src = pkgs.fetchFromGitHub {
           owner = "bitcoinj";
           repo = "secp256k1-jdk";
-          rev = "8f9746d7ab875b420a60b6e36234e20ea155927d"; # msgilligan/graaltest 25-08-08
-          sha256 = "sha256-7trYb4hOAZSRnZxUrHGuiTNR9hbkXWsVYe7ggRCZa1s=";
+          rev = "31bd620f92b93971e15356202def1a5df86fae88"; # msgilligan/native-examples-take3 25-09-04
+          sha256 = "sha256-z77tiqgwsD0vPJrCMkJpw0dV6H+YKvtS0cL9vP9m0YU=";
         };
 
         nativeBuildInputs = [gradle makeWrapper secp256k1];
@@ -46,16 +51,16 @@ outputs = {self, nixpkgs, ...}: {
 
         # TODO: The list of JARs in --module-path is hard-coded
         installPhase = ''
-          mkdir -p $out/{bin,share/secp256k1-jdk/libs,share/secp-examples-java/libs}
+          mkdir -p $out/{bin,share/secp256k1-jdk/libs,share/schnorr-example/libs}
           cp secp-api/build/libs/*.jar $out/share/secp256k1-jdk/libs
           cp secp-bouncy/build/libs/*.jar $out/share/secp256k1-jdk/libs
           cp secp-ffm/build/libs/*.jar $out/share/secp256k1-jdk/libs
-          cp secp-examples-java/build/install/secp-examples-java/lib/*.jar $out/share/secp-examples-java/libs
+          cp secp-examples-java/build/install/schnorr-example/lib/*.jar $out/share/schnorr-example/libs
 
           makeWrapper ${jre}/bin/java $out/bin/schnorr-example \
             --add-flags "--enable-native-access=org.bitcoinj.secp.ffm" \
             --add-flags "-Djava.library.path=${secp256k1}/lib" \
-            --add-flags "--module-path $out/share/secp-examples-java/libs/jspecify-1.0.0.jar:$out/share/secp-examples-java/libs/nativeimage-24.0.0.jar:$out/share/secp-examples-java/libs/word-24.0.0.jar:$out/share/secp-examples-java/libs/secp-api-${version}.jar:$out/share/secp-examples-java/libs/secp-examples-java-${version}.jar:$out/share/secp-examples-java/libs/secp-ffm-${version}.jar" \
+            --add-flags "--module-path $out/share/schnorr-example/libs/jspecify-1.0.0.jar:$out/share/schnorr-example/libs/nativeimage-24.0.0.jar:$out/share/schnorr-example/libs/word-24.0.0.jar:$out/share/schnorr-example/libs/secp-api-${version}.jar:$out/share/schnorr-example/libs/secp-examples-java-${version}.jar:$out/share/schnorr-example/libs/secp-ffm-${version}.jar:$out/share/schnorr-example/libs/secp-graalvm-${version}.jar" \
             --add-flags "--module org.bitcoinj.secp.examples/org.bitcoinj.secp.examples.Schnorr"
         '';
       });
@@ -70,12 +75,12 @@ outputs = {self, nixpkgs, ...}: {
             builtins.elem (pkgs.lib.getName pkg) allowedUnfree;
       };
 
-      gradle = pkgs.gradle.override {
-        java = pkgs.jdk24_headless; # Run Gradle with this JDK
+      graalvm = pkgs.graalvmPackages.graalvm-oracle_25-ea;
+      gradle = pkgs.gradle_9.override {
+        java = graalvm; # Run Gradle with this JDK
       };
       makeWrapper = pkgs.makeWrapper;
       secp256k1 = pkgs.secp256k1;
-      graalvm = pkgs.graalvmPackages.graalvm-oracle_25-ea;
       version = "0.2-SNAPSHOT";
       mainProgram = "schnorr-example-native";
 
@@ -87,8 +92,8 @@ outputs = {self, nixpkgs, ...}: {
         src = pkgs.fetchFromGitHub {
           owner = "bitcoinj";
           repo = "secp256k1-jdk";
-          rev = "8f9746d7ab875b420a60b6e36234e20ea155927d"; # msgilligan/graaltest 25-08-08
-          sha256 = "sha256-7trYb4hOAZSRnZxUrHGuiTNR9hbkXWsVYe7ggRCZa1s=";
+          rev = "31bd620f92b93971e15356202def1a5df86fae88"; # msgilligan/native-examples-take3 25-09-04
+          sha256 = "sha256-z77tiqgwsD0vPJrCMkJpw0dV6H+YKvtS0cL9vP9m0YU=";
         };
 
         nativeBuildInputs = [gradle makeWrapper secp256k1 graalvm];
@@ -103,6 +108,7 @@ outputs = {self, nixpkgs, ...}: {
         buildPhase = ''
           export GRAALVM_HOME=${graalvm}
           echo GRAALVM_HOME is $GRAALVM_HOME
+          export JAVA_TOOL_OPTIONS=-Djava.library.path=${secp256k1}/lib
           ${gradle}/bin/gradle -PjavaPath=${secp256k1}/lib  --info --stacktrace build secp-examples-java:nativeCompileSchnorr
         '';
 

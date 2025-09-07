@@ -91,8 +91,6 @@ outputs = {self, nixpkgs, ...}: {
           sha256 = "sha256-7trYb4hOAZSRnZxUrHGuiTNR9hbkXWsVYe7ggRCZa1s=";
         };
 
-#       nativeBuildInputs = [gradle makeWrapper secp256k1 graalvm pkgs.patchelf];
-#       nativeBuildInputs = [gradle makeWrapper secp256k1 graalvm pkgs.cctools];
         nativeBuildInputs = [gradle makeWrapper secp256k1 graalvm];
 
         mitmCache = gradle.fetchDeps {
@@ -101,10 +99,6 @@ outputs = {self, nixpkgs, ...}: {
           #  $(nix build .#secp256k1-jdk-native.mitmCache.updateScript --print-out-paths)
           data = ./deps-native.json;
         };
-
-        # defaults to "assemble"
-#       gradleBuildTask = "secp-examples-java:nativeCompileSchnorr";
-#       gradleFlags = [ "-PjavaPath=${secp256k1}/lib  --info --stacktrace" ];
 
         buildPhase = ''
           export GRAALVM_HOME=${graalvm}
@@ -115,13 +109,9 @@ outputs = {self, nixpkgs, ...}: {
         # will run the gradleCheckTask (defaults to "test")
         doCheck = false;
 
-        # TODO: The list of JARs in --module-path is hard-coded
         installPhase = ''
           mkdir -p $out/bin
           cp secp-examples-java/build/schnorr-example $out/bin/${mainProgram}
-          #patchelf --set-rpath "${secp256k1}/lib" $out/bin/${mainProgram}
-          #install_name_tool -change secp256k1.5.dylib "${secp256k1}/lib/secp256k1.5.dylib"  $out/bin/${mainProgram}
-          #we can't patch the binary becuase apparently Graal is using dlopen rather than a table of library in the exe
           wrapProgram $out/bin/${mainProgram} --prefix DYLD_LIBRARY_PATH : "${pkgs.secp256k1}/lib"
         '';
       });

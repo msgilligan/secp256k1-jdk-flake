@@ -5,9 +5,6 @@ package.  There is both a JVM (JIT) version and a natively compiled GraalVM vers
 
 == Run Directly From This Repo
 
-NOTE::
-This currently only works for `aarch64-darwin`.  (foreach-system coming soon.)
-
 To run the JRE version:
 
 ----
@@ -20,7 +17,7 @@ To run the natively-compiled version:
  nix run github:msgilligan/secp256k1-jdk-flake#secp256k1-jdk-native
 ----
 
-== To build secp256k1-jdk
+== Build secp256k1-jdk
 
 ----
 nix build .#secp256k1-jdk
@@ -39,7 +36,7 @@ nix build .#secp256k1-jdk .#secp256k1-jdk-native
 ----
 
 
-== To Install secp256k1-jdk
+== Install secp256k1-jdk
 
 ----
 nix profile install .#secp256k1-jdk

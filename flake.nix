@@ -28,8 +28,8 @@ outputs = {self, nixpkgs, ...}: {
         src = pkgs.fetchFromGitHub {
           owner = "bitcoinj";
           repo = "secp256k1-jdk";
-          rev = "31bd620f92b93971e15356202def1a5df86fae88"; # msgilligan/native-examples-take3 25-09-04
-          sha256 = "sha256-z77tiqgwsD0vPJrCMkJpw0dV6H+YKvtS0cL9vP9m0YU=";
+          rev = "f0186ff23194d52cf507949d2d30d811a470e5a7"; # master 25-09-07
+          sha256 = "sha256-dWzTgmMTwcwQaBXskhA9u2sU024SgkbsFsdFQdld6Vc=";
         };
 
         nativeBuildInputs = [gradle makeWrapper secp256k1];
@@ -92,8 +92,8 @@ outputs = {self, nixpkgs, ...}: {
         src = pkgs.fetchFromGitHub {
           owner = "bitcoinj";
           repo = "secp256k1-jdk";
-          rev = "31bd620f92b93971e15356202def1a5df86fae88"; # msgilligan/native-examples-take3 25-09-04
-          sha256 = "sha256-z77tiqgwsD0vPJrCMkJpw0dV6H+YKvtS0cL9vP9m0YU=";
+          rev = "f0186ff23194d52cf507949d2d30d811a470e5a7"; # master 25-09-07
+          sha256 = "sha256-dWzTgmMTwcwQaBXskhA9u2sU024SgkbsFsdFQdld6Vc=";
         };
 
         nativeBuildInputs = [gradle makeWrapper secp256k1 graalvm];

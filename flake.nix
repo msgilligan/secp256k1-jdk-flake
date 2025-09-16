@@ -59,7 +59,7 @@ outputs = {self, nixpkgs, ...}:
 
             gradleBuildTask = "secp-examples-java:installDist";
 
-            gradleFlags = [ "--info --stacktrace" ];
+                gradleFlags = [ "--info --stacktrace" ];
 
             # will run the gradleCheckTask (defaults to "test")
             doCheck = false;

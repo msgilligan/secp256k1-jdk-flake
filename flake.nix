@@ -41,7 +41,8 @@ outputs = {self, nixpkgs, ...}:
             pname = "secp256k1-jdk";
             meta.mainProgram = mainProgram;
 
-            nativeBuildInputs = [gradle makeWrapper secp256k1];
+            buildInputs = [secp256k1];
+            nativeBuildInputs = [gradle makeWrapper];
 
             mitmCache = gradle.fetchDeps {
               pkg = self;
@@ -87,7 +88,8 @@ outputs = {self, nixpkgs, ...}:
             pname = "secp256k1-jdk-native";
             meta.mainProgram = mainProgram;
 
-            nativeBuildInputs = [gradle makeWrapper secp256k1 graalvm];
+            buildInputs = [secp256k1];
+            nativeBuildInputs = [gradle makeWrapper graalvm];
 
             mitmCache = gradle.fetchDeps {
               pkg = self;

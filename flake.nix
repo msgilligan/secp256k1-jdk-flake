@@ -82,6 +82,7 @@ outputs = {self, nixpkgs, ...}:
       secp256k1-jdk-native =
         let
           mainProgram = "schnorr-example-native";
+          libraryPathEnvVar = if lib.isDarwin then "DYLD_LIBRARY_PATH" else "LD_LIBRARY_PATH";
 
           self = pkgs.stdenv.mkDerivation (_finalAttrs: {
             inherit version src;
@@ -112,7 +113,7 @@ outputs = {self, nixpkgs, ...}:
             installPhase = ''
               mkdir -p $out/bin
               cp secp-examples-java/build/schnorr-example $out/bin/${mainProgram}
-              wrapProgram $out/bin/${mainProgram} --prefix DYLD_LIBRARY_PATH : "${pkgs.secp256k1}/lib"
+              wrapProgram $out/bin/${mainProgram} --prefix ${libraryPathEnvVar} : "${pkgs.secp256k1}/lib"
             '';
           });
         in

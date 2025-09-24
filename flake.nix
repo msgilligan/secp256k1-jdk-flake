@@ -1,6 +1,6 @@
 {
 inputs = {
-    nixpkgs.url = "github:nixpkgs-jdk-ea/nixpkgs/jdk-ea-25";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 };
 outputs = {self, nixpkgs, ...}:
   let
@@ -14,14 +14,11 @@ outputs = {self, nixpkgs, ...}:
   in {
   packages = forEachSystem (system:
     let
-      allowedUnfree = [ "graalvm-oracle" ]; # list of allowed unfree packages
       pkgs = import nixpkgs {
           inherit system;
-          config.allowUnfreePredicate = pkg:
-            builtins.elem (pkgs.lib.getName pkg) allowedUnfree;
       };
       secp256k1 = pkgs.secp256k1;
-      graalvm = pkgs.graalvmPackages.graalvm-oracle_25-ea;
+      graalvm = pkgs.graalvmPackages.graalvm-ce;
       gradle = pkgs.gradle_9.override {
         java = graalvm;         # Run Gradle with this JDK
       };

@@ -5,12 +5,10 @@ inputs = {
 outputs = {self, nixpkgs, ...}:
   let
       systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin" ];
-
       forEachSystem = f: builtins.listToAttrs (map (system: {
         name = system;
         value = f system;
       }) systems);
-
   in {
   packages = forEachSystem (system:
     let
@@ -51,20 +49,15 @@ outputs = {self, nixpkgs, ...}:
               data = ./deps.json;
             };
 
-            preBuild = ''
-              export JAVA_TOOL_OPTIONS=-Djava.library.path=${secp256k1}/lib
-            '';
-
+            preBuild = "export JAVA_TOOL_OPTIONS=-Djava.library.path=${secp256k1}/lib";
             gradleBuildTask = "secp-examples-java:installDist";
-
-                gradleFlags = [ "--info --stacktrace" ];
-
-            # will run the gradleCheckTask (defaults to "test")
+            gradleFlags = [ "--info --stacktrace" ];
             doCheck = false;
 
             # TODO: The list of JARs in --module-path is hard-coded
             installPhase = ''
-              mkdir -p $out/{bin,share/secp256k1-jdk/libs,share/${mainProgram}/libs}
+              mkdir -p $out/{bin,share/secp256k1-jdk/libs}
+              mkdir -p $out/share/${mainProgram}/libs}
               cp secp-api/build/libs/*.jar $out/share/secp256k1-jdk/libs
               cp secp-bouncy/build/libs/*.jar $out/share/secp256k1-jdk/libs
               cp secp-ffm/build/libs/*.jar $out/share/secp256k1-jdk/libs
@@ -102,12 +95,8 @@ outputs = {self, nixpkgs, ...}:
               export GRAALVM_HOME=${graalvm}
               export JAVA_TOOL_OPTIONS=-Djava.library.path=${secp256k1}/lib
             '';
-
             gradleBuildTask = "build secp-examples-java:nativeCompileSchnorr";
-
             gradleFlags = [ "--info --stacktrace" ];
-
-            # will run the gradleCheckTask (defaults to "test")
             doCheck = false;
 
             installPhase = ''

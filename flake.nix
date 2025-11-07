@@ -21,12 +21,12 @@ outputs = {self, nixpkgs, ...}:
         java = graalvm;         # Run Gradle with this JDK
       };
       makeWrapper = pkgs.makeWrapper;
-      version = "0.2-SNAPSHOT";
+      version = "0.2";
       src = pkgs.fetchFromGitHub {
         owner = "bitcoinj";
         repo = "secp256k1-jdk";
-        rev = "f0186ff23194d52cf507949d2d30d811a470e5a7"; # master 25-09-07
-        sha256 = "sha256-dWzTgmMTwcwQaBXskhA9u2sU024SgkbsFsdFQdld6Vc=";
+        rev = "f67b7c0438aa98bc0a9b8c7afb9f3f13abe9a7b7"; # v0.2 tag
+        sha256 = "sha256-yA3PpC5GjTUclDDQ7uJcFFxsgbO2du0AoKSj1o450cw=";
       };
     in {
       secp256k1-jdk =

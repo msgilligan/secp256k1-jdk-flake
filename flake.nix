@@ -57,7 +57,7 @@ outputs = {self, nixpkgs, ...}:
             # TODO: The list of JARs in --module-path is hard-coded
             installPhase = ''
               mkdir -p $out/{bin,share/secp256k1-jdk/libs}
-              mkdir -p $out/share/${mainProgram}/libs}
+              mkdir -p $out/share/${mainProgram}/libs
               cp secp-api/build/libs/*.jar $out/share/secp256k1-jdk/libs
               cp secp-bouncy/build/libs/*.jar $out/share/secp256k1-jdk/libs
               cp secp-ffm/build/libs/*.jar $out/share/secp256k1-jdk/libs

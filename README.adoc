@@ -50,13 +50,8 @@ nix profile install .#secp256k1-jdk-native
 
 == To build/update deps.json and deps-native.json
 
-If you want to update the dependencies that are cached in `deps.json` and `deps-native.json`
+To update the dependencies that are cached in `deps.json`:
 
 ----
 $(nix build .#secp256k1-jdk.mitmCache.updateScript --print-out-paths)
-$(nix build .#secp256k1-jdk-native.mitmCache.updateScript --print-out-paths)
 ----
-
-== TODO
-
-* Use `src = self` as suggested by https://chatgpt.com/share/68bce3cf-5b54-800e-bcee-d114c32d8dc3[ChatGPT].

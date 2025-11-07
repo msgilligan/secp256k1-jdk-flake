@@ -66,7 +66,7 @@ outputs = {self, nixpkgs, ...}:
               makeWrapper ${jre}/bin/java $out/bin/${mainProgram} \
                 --add-flags "--enable-native-access=org.bitcoinj.secp.ffm" \
                 --add-flags "-Djava.library.path=${secp256k1}/lib" \
-                --add-flags "--module-path $out/share/${mainProgram}/libs/jspecify-1.0.0.jar:$out/share/${mainProgram}/libs/nativeimage-24.0.0.jar:$out/share/${mainProgram}/libs/word-24.0.0.jar:$out/share/${mainProgram}/libs/secp-api-${version}.jar:$out/share/${mainProgram}/libs/secp-examples-java-${version}.jar:$out/share/${mainProgram}/libs/secp-ffm-${version}.jar:$out/share/${mainProgram}/libs/secp-graalvm-${version}.jar" \
+                --add-flags "--module-path $out/share/${mainProgram}/libs/jspecify-1.0.0.jar:$out/share/${mainProgram}/libs/secp-api-${version}.jar:$out/share/${mainProgram}/libs/secp-examples-java-${version}.jar:$out/share/${mainProgram}/libs/secp-ffm-${version}.jar:$out/share/${mainProgram}/libs/secp-graalvm-${version}.jar" \
                 --add-flags "--module org.bitcoinj.secp.examples/org.bitcoinj.secp.examples.Schnorr"
             '';
           });

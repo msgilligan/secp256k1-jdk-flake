@@ -48,7 +48,7 @@ and/or
 nix profile install .#secp256k1-jdk-native
 ----
 
-== To build/update deps.json and deps-native.json
+== To build/update deps.json
 
 To update the dependencies that are cached in `deps.json`:
 

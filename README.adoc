@@ -1,7 +1,7 @@
 = Experimental Package flake for secp256k1-jdk
 
-This is a work-in-progress, experimental build of `secp256k1-jdk` as a (flake-based) Nix 
-package.  There is both a JVM (JIT) version and a natively compiled GraalVM version.
+This is a work-in-progress, experimental build of https://github.com/bitcoinj/secp256k1-jdk[secp256k1-jdk] as a (flake-based) https://nixos.org[Nix] 
+package.  There is both a JVM (JIT) version and a natively compiled https://www.graalvm.org[GraalVM] version.
 
 == Run Directly From This Repo
 

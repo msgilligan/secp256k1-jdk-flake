@@ -1,6 +1,6 @@
-= Proof-of-concept Package flake for secp256k1-jdk
+= Experimental Package flake for secp256k1-jdk
 
-This is a work-in-progress, proof-of-concept build of `secp256k1-jdk` as a Nix (flake-based)
+This is a work-in-progress, experimental build of `secp256k1-jdk` as a (flake-based) Nix 
 package.  There is both a JVM (JIT) version and a natively compiled GraalVM version.
 
 == Run Directly From This Repo
